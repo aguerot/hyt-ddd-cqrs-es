@@ -9,7 +9,7 @@ export class DistributionInscription {
 
     private _projection: DistributionInscriptionProjection;
 
-    constructor(private events: DistributionEvents[]) {
+    private constructor(private events: DistributionEvents[]) {
         this._projection = DistributionInscriptionProjection.fromEvents(events);
     }
 
@@ -31,6 +31,10 @@ export class DistributionInscription {
         }
 
         return new DistributionUnregistered(email);
+    }
+
+    static fromEvents(events: DistributionEvents[]) {
+        return new DistributionInscription(events);
     }
 
     static startInscription(date: Date) {
