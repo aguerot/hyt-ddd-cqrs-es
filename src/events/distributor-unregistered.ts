@@ -1,7 +1,7 @@
 import { Event } from  './event';
 
-export class DistributionUnregistered extends Event {
-    readonly __typename = 'DistributionUnregistered';
+export class DistributionUnregisteredEvent extends Event {
+    readonly __typename = 'DistributionUnregisteredEvent';
     constructor(
         public readonly email: string) {
         super()

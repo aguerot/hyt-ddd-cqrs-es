@@ -1,4 +1,3 @@
-import { Event } from '../events/event';
 import { DistributionEvents } from '../events/events';
 
 export class DistributionInscriptionProjection {
@@ -12,7 +11,7 @@ export class DistributionInscriptionProjection {
         return this._started;
     }
 
-    static fromEvents(events: DistributionEvents[]) {
+    static fromEvents(events: DistributionEvents[] = []) {
         const projection = new DistributionInscriptionProjection();
         events.forEach(e => projection.process(e));
         return projection;
@@ -20,18 +19,18 @@ export class DistributionInscriptionProjection {
 
     private process(event: DistributionEvents) {
         switch (event.__typename) {
-            case 'DistributionRegistered': {
+            case 'DistributionRegisteredEvent': {
                 this._registeredNames = [
                     ...this._registeredNames,
                     event.email
                 ];
                 break;
             }
-            case 'DistributionUnregistered': {
+            case 'DistributionUnregisteredEvent': {
                 this._registeredNames = this._registeredNames.filter(e => e !== event.email);
                 break;
             }
-            case 'InscriptionStarted': {
+            case 'InscriptionStartedEvent': {
                 this._started = true;
                 break;
             }

@@ -1,8 +1,9 @@
-import { DistributionRegistered } from './distributor-registered';
-import { DistributionUnregistered } from './distributor-unregistered';
-import { InscriptionStarted } from './inscription-started-event';
+import { DistributionRegisteredEvent } from './distributor-registered';
+import { DistributionUnregisteredEvent } from './distributor-unregistered';
+import { Event } from './event';
+import { InscriptionStartedEvent } from './inscription-started-event';
 
 export type DistributionEvents = 
-    | DistributionRegistered
-    | DistributionUnregistered
-    | InscriptionStarted;
+    | DistributionRegisteredEvent
+    | DistributionUnregisteredEvent
+    | InscriptionStartedEvent;

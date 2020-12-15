@@ -1,7 +1,7 @@
 
-import { DistributionRegistered } from '../events/distributor-registered';
-import { InscriptionStarted } from '../events/inscription-started-event';
-import { DistributionUnregistered } from '../events/distributor-unregistered';
+import { DistributionRegisteredEvent } from '../events/distributor-registered';
+import { InscriptionStartedEvent } from '../events/inscription-started-event';
+import { DistributionUnregisteredEvent } from '../events/distributor-unregistered';
 import { DistributionInscriptionProjection } from './distribution-inscription-projection';
 import { DistributionEvents } from '../events/events';
 
@@ -9,7 +9,7 @@ export class DistributionInscription {
 
     private _projection: DistributionInscriptionProjection;
 
-    private constructor(private events: DistributionEvents[]) {
+    private constructor(events: DistributionEvents[]) {
         this._projection = DistributionInscriptionProjection.fromEvents(events);
     }
 
@@ -22,7 +22,7 @@ export class DistributionInscription {
             return;
         }
 
-        return new DistributionRegistered(email);
+        return new DistributionRegisteredEvent(email);
     }
 
     unregisterDistribution(email: string) {
@@ -30,7 +30,7 @@ export class DistributionInscription {
             return;
         }
 
-        return new DistributionUnregistered(email);
+        return new DistributionUnregisteredEvent(email);
     }
 
     static fromEvents(events: DistributionEvents[]) {
@@ -38,6 +38,6 @@ export class DistributionInscription {
     }
 
     static startInscription(date: Date) {
-        return new InscriptionStarted(date);
+        return new InscriptionStartedEvent(date);
     }
 }

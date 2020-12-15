@@ -1,7 +1,7 @@
 import { Event } from  './event';
 
-export class InscriptionStarted extends Event {
-    readonly __typename = 'InscriptionStarted';
+export class InscriptionStartedEvent extends Event {
+    readonly __typename = 'InscriptionStartedEvent';
 
     constructor(public readonly date: Date) {
         super()
