@@ -1,7 +1,6 @@
 
 import { DistributionRegistered } from '../events/distributor-registered';
 import { InscriptionStarted } from '../events/inscription-started-event';
-import { Event } from '../events/event'
 import { DistributionUnregistered } from '../events/distributor-unregistered';
 import { DistributionInscriptionProjection } from './distribution-inscription-projection';
 import { DistributionEvents } from '../events/events';
