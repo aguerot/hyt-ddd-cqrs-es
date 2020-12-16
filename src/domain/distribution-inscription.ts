@@ -4,9 +4,13 @@ import { InscriptionStartedEvent } from '../events/inscription-started-event';
 import { DistributionUnregisteredEvent } from '../events/distributor-unregistered';
 import { DistributionInscriptionProjection } from './distribution-inscription-projection';
 import { DistributionEvents } from '../events/events';
+import { DistributionInscriptionId } from './distribution-inscription-id';
 
 export class DistributionInscription {
 
+    get id() {
+        return this._projection.id;
+    }
     private _projection: DistributionInscriptionProjection;
 
     private constructor(events: DistributionEvents[]) {
@@ -38,6 +42,8 @@ export class DistributionInscription {
     }
 
     static startInscription(date: Date) {
-        return new InscriptionStartedEvent(date);
+        const id = DistributionInscriptionId.create('1234');
+        console.log(`id: ${id}`)
+        return new InscriptionStartedEvent(id, date);
     }
 }
