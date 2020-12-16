@@ -12,7 +12,7 @@ describe('DistributionInscription', () => {
 
     it('should have an id once started', () => {
         const distributionInscription = DistributionInscription.fromEvents([
-            new InscriptionStartedEvent(id, date)
+            new InscriptionStartedEvent(id)
         ]);
 
         expect(distributionInscription.id.value).equal(id.value);
@@ -26,9 +26,14 @@ describe('DistributionInscription', () => {
     });
 
     describe(InscriptionStartedEvent.name, () => {
+        let aggregate;
+        beforeEach(() => {
+            aggregate = DistributionInscription.fromEvents([]);
+        });
         it(`should create ${InscriptionStartedEvent.name}`, () => {
-            const newEvent = DistributionInscription.startInscription(date);
-            const expectedEvent = new InscriptionStartedEvent(id, date);
+            
+            const newEvent = aggregate.startInscription();
+            const expectedEvent = new InscriptionStartedEvent(id);
             expect(newEvent.equals(expectedEvent)).to.be.true;
         });
     });
@@ -37,10 +42,10 @@ describe('DistributionInscription', () => {
     describe(DistributionRegisteredEvent.name, () => {
         it(`should raise ${DistributionRegisteredEvent.name}`, () => {
             const distributionInscription = DistributionInscription.fromEvents([
-                new InscriptionStartedEvent(id, date)
+                new InscriptionStartedEvent(id)
             ]);
 
-            const expectedEvent = new DistributionRegisteredEvent(email);
+            const expectedEvent = new DistributionRegisteredEvent(id, email);
             const newEvent = distributionInscription.registerDistribution(email);
 
             expect(newEvent.equals(expectedEvent)).to.be.true;
@@ -56,8 +61,8 @@ describe('DistributionInscription', () => {
 
         it(`should not raise ${DistributionRegisteredEvent.name} if already registered`, () => {
             const distributionInscription = DistributionInscription.fromEvents([
-                new InscriptionStartedEvent(id, date),
-                new DistributionRegisteredEvent(email)
+                new InscriptionStartedEvent(id),
+                new DistributionRegisteredEvent(id, email)
             ]);
 
             const newEvent = distributionInscription.registerDistribution(email);
@@ -72,11 +77,11 @@ describe('DistributionInscription', () => {
 
             // history
             const distributionInscription = DistributionInscription.fromEvents([
-                new InscriptionStartedEvent(id, date),
-                new DistributionRegisteredEvent(email),
+                new InscriptionStartedEvent(id),
+                new DistributionRegisteredEvent(id, email),
             ]);
 
-            const expectedEvent = new DistributionUnregisteredEvent(email);
+            const expectedEvent = new DistributionUnregisteredEvent(id, email);
             const newEvent = distributionInscription.unregisterDistribution(email);
 
             expect(newEvent.equals(expectedEvent)).to.be.true;
@@ -96,7 +101,7 @@ describe('DistributionInscription', () => {
         it(`should not raise ${DistributionUnregisteredEvent.name} if not already registered`, () => {
             // history
             const distributionInscription = DistributionInscription.fromEvents([
-                new InscriptionStartedEvent(id, date),
+                new InscriptionStartedEvent(id),
             ]);
 
             const newEvent = distributionInscription.unregisterDistribution(email);

@@ -1,6 +1,6 @@
-export abstract class Event {
+export abstract class EventBase {
 
-  public equals(vo?: Event): boolean {
+  public equals(vo?: EventBase): boolean {
     if (vo === null || vo === undefined) {
       return false;
     }

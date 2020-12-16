@@ -1,12 +1,11 @@
 import { DistributionInscriptionId } from '../domain/distribution-inscription-id';
-import { Event } from  './event';
+import { EventBase } from  './event';
 
-export class InscriptionStartedEvent extends Event {
+export class InscriptionStartedEvent extends EventBase {
     readonly __typename = 'InscriptionStartedEvent';
 
     constructor(
-        public readonly id: DistributionInscriptionId,
-        public readonly date: Date) {
+        public readonly id: DistributionInscriptionId) {
         super()
     }
 }

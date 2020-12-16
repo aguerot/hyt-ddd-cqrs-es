@@ -26,7 +26,7 @@ export class DistributionInscription {
             return;
         }
 
-        return new DistributionRegisteredEvent(email);
+        return new DistributionRegisteredEvent(this.id, email);
     }
 
     unregisterDistribution(email: string) {
@@ -34,16 +34,20 @@ export class DistributionInscription {
             return;
         }
 
-        return new DistributionUnregisteredEvent(email);
+        return new DistributionUnregisteredEvent(this.id, email);
+    }
+
+    startInscription() {
+        const id = DistributionInscriptionId.create('1234');
+        return new InscriptionStartedEvent(id);
     }
 
     static fromEvents(events: DistributionEvents[]) {
         return new DistributionInscription(events);
     }
 
-    static startInscription(date: Date) {
+    static startInscription() {
         const id = DistributionInscriptionId.create('1234');
-        console.log(`id: ${id}`)
-        return new InscriptionStartedEvent(id, date);
+        return new InscriptionStartedEvent(id);
     }
 }
