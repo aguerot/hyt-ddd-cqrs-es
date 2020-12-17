@@ -4,12 +4,12 @@ import { IEventHandler } from './readmodel/event-handler';
 export class EventBus {
     private _handlers: IEventHandler[] = [];
 
-    constructor(private _events: EventBase[]) {
+    constructor(private _eventstore: EventBase[]) {
 
     }
 
     publish(events: EventBase[]) {
-        this._events.push(...events);
+        this._eventstore.push(...events);
 
         events.forEach(e => {
             this._handlers.forEach(h => {
