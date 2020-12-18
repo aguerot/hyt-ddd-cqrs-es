@@ -6,7 +6,7 @@ type Stream = { id: string, events: EventBase[] };
 export class InmemoryEventStore implements IEventStore {
     private _store: { [id: string]: EventBase[] } = {};
 
-    constructor(stream: Stream[]) {
+    constructor(stream: Stream[] = []) {
         stream.map(s => this.save(s.id, s.events));
     }
 

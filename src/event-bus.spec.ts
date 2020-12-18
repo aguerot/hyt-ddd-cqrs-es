@@ -22,7 +22,7 @@ describe(EventBus.name, () => {
     let eventBus: EventBus;
 
     beforeEach(() => {
-        eventStore = new InmemoryEventStore([]);
+        eventStore = new InmemoryEventStore();
         eventBus = new EventBus(eventStore);
     });
 

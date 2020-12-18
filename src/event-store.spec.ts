@@ -11,7 +11,7 @@ describe(InmemoryEventStore.name, () => {
     const otherId = DistributionInscriptionId.create('6789');
     
     beforeEach(() => {
-        store = new InmemoryEventStore([]);
+        store = new InmemoryEventStore();
     });
 
     it('should return empty event list for unknown id', () => {

@@ -20,26 +20,31 @@ describe('integration test', () => {
     let distributorNames: DistributorNames;
     let history: DistributionEvents[];
 
+    const getHistoryId = ([first, ...other]: DistributionEvents[]) => first?.id.value;
+
     beforeEach(() => {
-        eventStore= new InmemoryEventStore([]);
+        eventStore= new InmemoryEventStore();
         eventBus = new EventBus(eventStore);
         distributorCounter = new DistributorCounter();
         distributorNames = new DistributorNames();
         eventBus.subscribe(distributorCounter);
         eventBus.subscribe(distributorNames);
         history = [];
+        
     });
     
     it('should update counter and names readmodels after aggregate commands', () => {
 
-
+        // start from nothing
         history.push(DistributionInscription.startInscription());
+        
+        // rebuild history to get a new aggregate and invoke command 
         history.push(DistributionInscription.fromEvents(history)
                         .registerDistribution(email));
         history.push(DistributionInscription.fromEvents(history)
                         .registerDistribution(email2));
 
-        eventBus.publish(history[0].id.value, history);
+        eventBus.publish(getHistoryId(history), history);
 
         expect(distributorCounter.getCounter(id.value)).equal(2);
         expect(distributorNames.getNames(id.value)).length(2);
