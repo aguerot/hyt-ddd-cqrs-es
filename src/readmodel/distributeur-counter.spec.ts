@@ -17,20 +17,16 @@ describe('DistributionCounter', () => {
         unregisterEvent = new DistributionUnregisteredEvent(id, email);
     });
 
-    it('should increment counter', () => {
-        const beforeCounter = readmodel.getCounter(id.value);
+    it('should increment counter on register event', () => {
         readmodel.handle(registerEvent);
-        const afterCounter = readmodel.getCounter(id.value);
 
-        expect(afterCounter - beforeCounter).equal(1);
+        expect(readmodel.getCounter(id.value)).equal(1);
     });
 
-    it('should decrement counter', () => {
-        readmodel.handle(registerEvent);
-        const beforeCounter = readmodel.getCounter(id.value);
+    it('should decrement counter on unregister event', () => {
+        // readmodel.handle(registerEvent);
         readmodel.handle(unregisterEvent);
-        const afterCounter = readmodel.getCounter(id.value);
 
-        expect(afterCounter - beforeCounter).equal(-1);
+        expect(readmodel.getCounter(id.value)).equal(-1);
     });
 });

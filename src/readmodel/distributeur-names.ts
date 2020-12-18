@@ -19,7 +19,8 @@ export class DistributorNames implements IEventHandler {
                 ];
                 break;
             case 'DistributionUnregisteredEvent':
-                this._names[event.id.value] = this._names[event.id.value].filter(e => e !== event.email);
+                this._names[event.id.value] = this.getNames(event.id.value)
+                                                  .filter(e => e !== event.email);
                 break;
         }
     }

@@ -16,7 +16,7 @@ export class DistributorCounter implements IEventHandler {
                 this._counters[event.id.value] = this.getCounter(event.id.value) + 1;
                 break;
             case 'DistributionUnregisteredEvent':
-                this._counters[event.id.value]--;
+                this._counters[event.id.value] = this.getCounter(event.id.value) - 1;
                 break;
         }
     }
