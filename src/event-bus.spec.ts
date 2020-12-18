@@ -1,10 +1,11 @@
 import { expect } from "chai";
 import { DistributionInscriptionId } from './domain/distribution-inscription-id';
-import { DistributorNames } from './readmodel/distributeur-names';
 import { EventBus } from './event-bus';
 import { EventBase }  from './events/event';
 import { DistributionRegisteredEvent } from './events/distributor-registered';
 import {IEventHandler} from './readmodel/event-handler';
+import { InmemoryEventStore } from './inmemory-event-store';
+import { IEventStore } from './event-store';
 
 const email = 'email@inter.net';
 const id: DistributionInscriptionId = DistributionInscriptionId.create('1234');
@@ -17,27 +18,28 @@ describe(EventBus.name, () => {
         }
     }
 
+    let eventStore: IEventStore;
+    let eventBus: EventBus;
+
+    beforeEach(() => {
+        eventStore = new InmemoryEventStore([]);
+        eventBus = new EventBus(eventStore);
+    });
+
     it('should store events', () => {
-        const eventStore: EventBase[] = [];
-
-        const eventBus = new EventBus(eventStore);
-
-        eventBus.publish([
+        eventBus.publish(id.value, [
             new DistributionRegisteredEvent(id, email)
         ]);
 
-        expect(eventStore.length).equal(1);
+        expect(eventStore.get(id.value).length).equal(1);
     });
 
     it('should call handlers', () => {
-        const eventStore: EventBase[] = [];
-
-        const eventBus = new EventBus(eventStore);
 
         const mockReadModel = new MockReadModel();
         eventBus.subscribe(mockReadModel);
 
-        eventBus.publish([
+        eventBus.publish(id.value, [
             new DistributionRegisteredEvent(id, email)
         ]);
 

@@ -1,15 +1,16 @@
+import { IEventStore } from './event-store';
 import { EventBase } from './events/event';
 import { IEventHandler } from './readmodel/event-handler';
 
 export class EventBus {
     private _handlers: IEventHandler[] = [];
 
-    constructor(private _eventstore: EventBase[]) {
+    constructor(private _eventstore: IEventStore) {
 
     }
 
-    publish(events: EventBase[]) {
-        this._eventstore.push(...events);
+    publish(id: string, events: EventBase[]) {
+        this._eventstore.save(id, events);
 
         events.forEach(e => {
             this._handlers.forEach(h => {

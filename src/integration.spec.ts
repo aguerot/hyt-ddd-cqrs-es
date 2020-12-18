@@ -2,7 +2,8 @@ import { expect } from "chai";
 import { DistributionInscription } from './domain/distribution-inscription';
 import { DistributionInscriptionId } from './domain/distribution-inscription-id';
 import { EventBus } from './event-bus';
-import { EventBase } from './events/event'
+import { IEventStore } from './event-store'
+import { InmemoryEventStore } from './inmemory-event-store';
 import { DistributionEvents } from './events/events';
 import { DistributorCounter } from './readmodel/distributeur-counter';
 import { DistributorNames } from './readmodel/distributeur-names';
@@ -13,14 +14,14 @@ const id: DistributionInscriptionId = DistributionInscriptionId.create('1234');
 
 describe('integration test', () => {
 
-    let eventStore: EventBase[] ;
+    let eventStore: IEventStore ;
     let eventBus: EventBus;
     let distributorCounter: DistributorCounter;
     let distributorNames: DistributorNames;
     let history: DistributionEvents[];
 
     beforeEach(() => {
-        eventStore= [];
+        eventStore= new InmemoryEventStore([]);
         eventBus = new EventBus(eventStore);
         distributorCounter = new DistributorCounter();
         distributorNames = new DistributorNames();
@@ -38,7 +39,7 @@ describe('integration test', () => {
         history.push(DistributionInscription.fromEvents(history)
                         .registerDistribution(email2));
 
-        eventBus.publish(history);
+        eventBus.publish(history[0].id.value, history);
 
         expect(distributorCounter.getCounter(id.value)).equal(2);
         expect(distributorNames.getNames(id.value)).length(2);
@@ -46,3 +47,4 @@ describe('integration test', () => {
 
 
 });
+
