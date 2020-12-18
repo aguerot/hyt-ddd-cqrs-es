@@ -1,6 +1,6 @@
-import { DistributionInscriptionId } from './domain/distribution-inscription-id';
+import { DistributionInscriptionId } from '../domain/distribution-inscription-id';
 import { IEventStore } from './event-store';
-import { EventBase } from './events/event';
+import { EventBase } from '../events/event';
 type Stream = { id: string, events: EventBase[] };
 
 export class InmemoryEventStore implements IEventStore {

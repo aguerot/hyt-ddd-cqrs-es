@@ -4,8 +4,8 @@ import { EventBus } from './event-bus';
 import { EventBase }  from './events/event';
 import { DistributionRegisteredEvent } from './events/distributor-registered';
 import {IEventHandler} from './readmodel/event-handler';
-import { InmemoryEventStore } from './inmemory-event-store';
-import { IEventStore } from './event-store';
+import { InmemoryEventStore } from './repo/inmemory-event-store';
+import { IEventStore } from './repo/event-store';
 
 const email = 'email@inter.net';
 const id: DistributionInscriptionId = DistributionInscriptionId.create('1234');

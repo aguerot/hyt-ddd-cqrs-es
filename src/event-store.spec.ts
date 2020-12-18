@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { IEventStore } from './event-store';
-import { InmemoryEventStore } from './inmemory-event-store';
+import { IEventStore } from './repo/event-store';
+import { InmemoryEventStore } from './repo/inmemory-event-store';
 import { InscriptionStartedEvent }  from './events/inscription-started-event';
 import { DistributionRegisteredEvent } from './events/distributor-registered';
 import { DistributionInscriptionId } from './domain/distribution-inscription-id';

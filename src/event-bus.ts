@@ -1,4 +1,4 @@
-import { IEventStore } from './event-store';
+import { IEventStore } from './repo/event-store';
 import { EventBase } from './events/event';
 import { IEventHandler } from './readmodel/event-handler';
 

@@ -2,8 +2,8 @@ import { expect } from "chai";
 import { DistributionInscription } from './domain/distribution-inscription';
 import { DistributionInscriptionId } from './domain/distribution-inscription-id';
 import { EventBus } from './event-bus';
-import { IEventStore } from './event-store'
-import { InmemoryEventStore } from './inmemory-event-store';
+import { IEventStore } from './repo/event-store'
+import { InmemoryEventStore } from './repo/inmemory-event-store';
 import { DistributionEvents } from './events/events';
 import { DistributorCounter } from './readmodel/distributeur-counter';
 import { DistributorNames } from './readmodel/distributeur-names';
