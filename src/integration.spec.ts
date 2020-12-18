@@ -3,6 +3,7 @@ import { DistributionInscription } from './domain/distribution-inscription';
 import { DistributionInscriptionId } from './domain/distribution-inscription-id';
 import { EventBus } from './event-bus';
 import { EventBase } from './events/event'
+import { DistributionEvents } from './events/events';
 import { DistributorCounter } from './readmodel/distributeur-counter';
 import { DistributorNames } from './readmodel/distributeur-names';
 
@@ -16,29 +17,28 @@ describe('integration test', () => {
     let eventBus: EventBus;
     let distributorCounter: DistributorCounter;
     let distributorNames: DistributorNames;
+    let history: DistributionEvents[];
 
     beforeEach(() => {
         eventStore= [];
         eventBus = new EventBus(eventStore);
         distributorCounter = new DistributorCounter();
         distributorNames = new DistributorNames();
-    });
-    
-    it('should update readmodel after aggregate command', () => {
         eventBus.subscribe(distributorCounter);
         eventBus.subscribe(distributorNames);
+        history = [];
+    });
+    
+    it('should update counter and names readmodels after aggregate commands', () => {
 
-        const startedEvent = DistributionInscription.startInscription();
-        const registrationEvent = DistributionInscription.fromEvents([startedEvent])
-                                    .registerDistribution(email);
-        const registrationEvent2 = DistributionInscription.fromEvents([startedEvent, registrationEvent])
-                                    .registerDistribution(email2);
 
-        eventBus.publish([
-            startedEvent,
-            registrationEvent,
-            registrationEvent2
-        ]);
+        history.push(DistributionInscription.startInscription());
+        history.push(DistributionInscription.fromEvents(history)
+                        .registerDistribution(email));
+        history.push(DistributionInscription.fromEvents(history)
+                        .registerDistribution(email2));
+
+        eventBus.publish(history);
 
         expect(distributorCounter.getCounter(id.value)).equal(2);
         expect(distributorNames.getNames(id.value)).length(2);
